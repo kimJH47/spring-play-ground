@@ -1,0 +1,25 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:33336/ecommerce_test?useSSL=false&&allowPublicKeyRetrieval=true
+    username: root
+    password: 1111
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+  redis:
+    host: 127.0.0.1
+    port: 6379
+
+logging:
+  discord:
+    webhook-uri: https://discord.com/api/webhooks/1146761329747697796/bKKH4zb5f6LGthRFUQZO2H2GWUII6FUy-e9wGs9oh7t7C2pS1Cn0Otbc0NPIWScd7x9f
+  config: classpath:logback-spring.xml
+
+
+logback.access:
+  enabled: true
