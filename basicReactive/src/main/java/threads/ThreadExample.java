@@ -1,23 +1,18 @@
 package threads;
 
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
 public class ThreadExample {
-	public static void main(String[] args) throws InterruptedException {
+	public static void main(String[] args) throws InterruptedException, ExecutionException {
 		int x = 1200;
-		Result result = new Result();
-		Thread t1 = new Thread(() -> {
-			result.left = f(x);
-		});
-		Thread t2 = new Thread(() -> {
-			result.right = g(x);
-		});
-
-		t1.start();
-		t2.start();
-
-		t1.join();
-		t2.join();
-
-		System.out.println(result);
+		ExecutorService executorService = Executors.newFixedThreadPool(2);
+		Future<Integer> f = executorService.submit(() -> f(x));
+		Future<Integer> g = executorService.submit(() -> g(x));
+		System.out.println("f : " + f.get() + " g: " + g.get());
+		executorService.shutdown();
 	}
 
 	static class Result {
