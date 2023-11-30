@@ -1,1 +1,3 @@
 rootProject.name = 'springPlayGround'
+include 'basicReactive'
+
