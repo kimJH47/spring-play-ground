@@ -1,38 +1,79 @@
 package threads;
 
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 public class ThreadExample {
 	public static void main(String[] args) throws InterruptedException, ExecutionException {
 		int x = 1200;
-		ExecutorService executorService = Executors.newFixedThreadPool(2);
-		Future<Integer> f = executorService.submit(() -> f(x));
-		Future<Integer> g = executorService.submit(() -> g(x));
-		System.out.println("f : " + f.get() + " g: " + g.get());
-		executorService.shutdown();
+		Future<Integer> f = f(x);
+		Future<Integer> g = g(x);
+		System.out.println(f.get() + g.get());
 	}
 
-	static class Result {
-		private int right = 1;
-		private int left = 1;
+	public static Future<Integer> f(int x) {
+		return new Future<Integer>() {
+			@Override
+			public boolean cancel(boolean mayInterruptIfRunning) {
+				return false;
+			}
 
-		@Override
-		public String toString() {
-			return "Result{" +
-				"right=" + right +
-				", left=" + left +
-				'}';
-		}
+			@Override
+			public boolean isCancelled() {
+				return false;
+			}
+
+			@Override
+			public boolean isDone() {
+				return false;
+			}
+
+			@Override
+			public Integer get() throws InterruptedException, ExecutionException {
+				return x + x;
+			}
+
+			@Override
+			public Integer get(long timeout, TimeUnit unit) throws
+				InterruptedException,
+				ExecutionException,
+				TimeoutException {
+				return null;
+			}
+		};
 	}
 
-	public static int f(int x) {
-		return x + x;
-	}
+	public static Future<Integer> g(int x) {
+		return new Future<Integer>() {
+			@Override
+			public boolean cancel(boolean mayInterruptIfRunning) {
+				return false;
+			}
 
-	public static int g(int x) {
-		return x * x;
+			@Override
+			public boolean isCancelled() {
+				return false;
+			}
+
+			@Override
+			public boolean isDone() {
+				return false;
+			}
+
+			@Override
+			public Integer get() throws InterruptedException, ExecutionException {
+				return x * x;
+			}
+
+			@Override
+			public Integer get(long timeout, TimeUnit unit) throws
+				InterruptedException,
+				ExecutionException,
+				TimeoutException {
+				return null;
+			}
+		};
 	}
 }
