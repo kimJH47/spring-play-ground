@@ -32,7 +32,6 @@ public class MemberNotificationService {
 		memberNotificationRepository.save(memberFcm);
 	}
 
-	@Transactional
 	private void updateToken(Long memberId, String token) {
 		MemberNotification memberNotification = memberNotificationRepository.findByMemberId(memberId)
 			.orElseThrow(() -> new IllegalArgumentException("토큰 없뜸"));
